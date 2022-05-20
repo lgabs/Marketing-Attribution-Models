@@ -1,7 +1,9 @@
 from typing import List, Dict, Any, Callable
+from grpc import Call
 import pytest
 
 import pandas as pd
+import numpy as np
 from marketing_attribution_models import MAM
 
 
@@ -24,7 +26,35 @@ df = (
 
 
 @pytest.fixture
-def model_fixture() -> MAM:
+def dataframe_generator() -> Callable:
+    def factory(size=1000000, prob_conversion=0.05) -> pd.DataFrame:
+        user_ids = set(np.random.randint(low=1, size=size))
+        df = pd.DataFrame(
+            columns=[
+                "user_pseudo_id",
+                "session_id",
+                "event_time",
+                "user_id",
+                "is_conversion",
+                "source_medium",
+            ]
+        )
+        for user in user_ids:
+            n_events: int = np.random.randint(1, 10, 1)
+            session_id: List[int] = list(range(1, n_events + 1))
+            event_time: List[np.datetime64] = [
+                np.datetime64("2022-01-01") + np.timedelta64(i, "h")
+                for i in session_id
+            ]
+            user_id: List[int] = [None] * (n_events - 1) + [np.random.randint(low=1, size=1)]
+            is_conversion: List[bool] = [None] * (n_events - 1) + [np.random.binomial(n=1, p=prob_conversion, size=1)]
+            
+
+    return factory
+
+
+@pytest.fixture
+def model_fixture() -> Callable:
     """Fixture to create a model."""
 
     def factory(attribution_window=30) -> MAM:
