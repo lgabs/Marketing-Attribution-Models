@@ -1419,12 +1419,16 @@ class MAM:
         )
         # Add results to original DataFrame
         # self.original_df[model_name] = channels_value.explode().reset_index(drop=True)
-        self.original_df[model_name] = pd.Series(
-            [
-                [value * n_purchases for value in value_list]
-                for value_list, n_purchases in zip(channels_value, freq_values)
-            ]
-        ).explode().reset_index(drop=True)
+        self.original_df[model_name] = (
+            pd.Series(
+                [
+                    [value * n_purchases for value in value_list]
+                    for value_list, n_purchases in zip(channels_value, freq_values)
+                ]
+            )
+            .explode()
+            .reset_index(drop=True)
+        )
 
         # Grouping the attributed values for each channel
         total_conv_value = self.journey_with_conv * self.conversion_value
