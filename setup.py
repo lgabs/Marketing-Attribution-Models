@@ -10,12 +10,12 @@ with open("README.md", "r") as f:
 
 setup(
     name="marketing_attribution_models",
-    version="1.0.8",
-    description="Metodos de atribuicao de midia",
+    version="1.1.0",
+    description="Metodos de Atribuicao de Mídia",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    author="Andre Tocci",
-    author_email="andre.tocci@dp6.com.br",
+    author="Luan Gabriel (forked from andre.tocci@dp6.com.br)",
+    author_email="luangabriel70@gmail.com",
     url="https://github.com/DP6/Marketing-Attribution-Models",
     packages=["marketing_attribution_models"],
     install_requires=[
