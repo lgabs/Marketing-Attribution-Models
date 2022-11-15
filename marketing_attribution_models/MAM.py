@@ -365,7 +365,7 @@ class MAM:
                 )
             else:
                 self.conversion_value = (
-                    df.groupby(group_channels_by_id_list)[conversion_value]
+                    df.groupby(group_channels_by_id_list, sort=False)[conversion_value]
                     .sum()
                     .reset_index()[conversion_value]
                 )
