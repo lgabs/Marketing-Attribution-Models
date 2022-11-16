@@ -198,3 +198,11 @@ def test_markov_removal_effect_matrix_multiple_conversion(
         ),
         check_like=True,
     )
+
+
+def test_last_click_more_than_10_conversions(model_fixture_more_than_10_conversions):
+    model = model_fixture_more_than_10_conversions()
+    result: pd.Series = model.attribution_last_click()[0]
+    # check that orders were kept
+    assert result[2] == [0, 1]
+    assert result[10] == [0, 4]

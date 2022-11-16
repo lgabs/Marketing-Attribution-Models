@@ -30,11 +30,13 @@ def random_date(start, end) -> datetime.datetime:
     return start + timedelta(seconds=random_second)
 
 
-def load_sample_dataframe(multiple_conversions=False) -> pd.DataFrame:
-    if multiple_conversions:
-        path = "data/test_dataset_multiple_conversions.csv"
-    else:
+def load_sample_dataframe(strategy="simple_case") -> pd.DataFrame:
+    if strategy == "simple_case":
         path = "data/test_dataset.csv"
+    elif strategy == "multiple_conversions":
+        path = "data/test_dataset_multiple_conversions.csv"
+    elif strategy == "more_than_10_conversions":
+        path = "data/test_dataset_more_than_10_conversions.csv"
     return (
         pd.read_csv(path)
         .pipe(get_intermediate)

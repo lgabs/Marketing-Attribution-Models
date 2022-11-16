@@ -35,7 +35,26 @@ def model_fixture_multiple_conversions() -> Callable:
     """Fixture to create a model."""
 
     def factory(attribution_window=30) -> MAM:
-        df = load_sample_dataframe(multiple_conversions=True)
+        df = load_sample_dataframe(strategy="multiple_conversions")
+        return MAM(
+            df,
+            attribution_window=attribution_window,
+            conversion_value="n_purchases",
+            channels_colname="source_medium",
+            group_channels=True,
+            group_channels_by_id_list=["user_pseudo_id"],
+            group_timestamp_colname="event_time",
+            journey_with_conv_colname="is_conversion_purchase",
+            create_journey_id_based_on_conversion=True,
+        )
+
+    return factory
+
+
+@pytest.fixture
+def model_fixture_more_than_10_conversions() -> Callable:
+    def factory(attribution_window=30) -> MAM:
+        df = load_sample_dataframe(strategy="more_than_10_conversions")
         return MAM(
             df,
             attribution_window=attribution_window,
